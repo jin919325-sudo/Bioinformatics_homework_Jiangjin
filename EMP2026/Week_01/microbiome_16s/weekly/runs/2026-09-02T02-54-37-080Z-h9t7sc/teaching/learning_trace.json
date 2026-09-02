@@ -1,0 +1,54 @@
+{
+  "success": true,
+  "user_id": "GxGyRocEMUl2t7KhEphOk5iI",
+  "events": [
+    {
+      "event_type": "api_call",
+      "path": "/llm/openrouter_verified",
+      "method": "GET",
+      "total_ms": 81,
+      "backend_ms": 26.9,
+      "case_id": null,
+      "experiment": null,
+      "user_id": "GxGyRocEMUl2t7KhEphOk5iI",
+      "role": "local",
+      "ts": "2026-09-02T10:40:39.226+0800"
+    },
+    {
+      "event_type": "api_call",
+      "path": "/clinical/vars_standalone/GxGyRocEMUl2t7KhEphOk5iI",
+      "method": "GET",
+      "total_ms": 180,
+      "backend_ms": 111.8,
+      "case_id": null,
+      "experiment": null,
+      "user_id": "GxGyRocEMUl2t7KhEphOk5iI",
+      "role": "local",
+      "ts": "2026-09-02T10:40:39.579+0800"
+    },
+    {
+      "event_type": "api_call",
+      "path": "/llm/openrouter_verified",
+      "method": "GET",
+      "total_ms": 61,
+      "backend_ms": 16.4,
+      "case_id": null,
+      "experiment": null,
+      "user_id": "GxGyRocEMUl2t7KhEphOk5iI",
+      "role": "local",
+      "ts": "2026-09-02T10:41:47.279+0800"
+    },
+    {
+      "event_type": "api_call",
+      "path": "/clinical/vars_standalone/GxGyRocEMUl2t7KhEphOk5iI",
+      "method": "GET",
+      "total_ms": 31,
+      "backend_ms": 3.3,
+      "case_id": null,
+      "experiment": null,
+      "user_id": "GxGyRocEMUl2t7KhEphOk5iI",
+      "role": "local",
+      "ts": "2026-09-02T10:41:47.449+0800"
+    }
+  ]
+}
