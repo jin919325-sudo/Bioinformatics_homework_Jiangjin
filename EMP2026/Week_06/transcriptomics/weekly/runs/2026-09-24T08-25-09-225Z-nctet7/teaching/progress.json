@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "user_id": "GxGyRocEMUl2t7KhEphOk5iI",
+  "progress": {
+    "passed_quizzes": {
+      "course_microbiome_16s::s1_import": "2026-09-24T15:46:28.683+0800",
+      "course_microbiome_16s::s2_prepare": "2026-09-24T15:47:22.178+0800",
+      "course_microbiome_16s::s3_analysis": "2026-09-24T15:47:57.629+0800",
+      "course_microbiome_16s::s4_visualization": "2026-09-24T15:48:04.724+0800",
+      "course_microbiome_16s::s5_interpretation": "2026-09-24T15:48:14.266+0800"
+    },
+    "user_id": "GxGyRocEMUl2t7KhEphOk5iI",
+    "updated_at": "2026-09-24T15:48:14.266+0800"
+  },
+  "reflections": []
+}
