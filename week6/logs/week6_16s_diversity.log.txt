@@ -1,0 +1,123 @@
+### Week 6 16S diversity analysis — 2026-09-24 16:47:33 
+
+## 1. Identity checks before any analysis
+counts table  : 470 features x 132 samples
+metadata table: 130 rows x 3 columns: SampleID, Group, Group_sub 
+first 3 features: k__Bacteria;__;__;__;__;__;__ | k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Veillonellaceae;g__Megamonas;s__ | k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__;s__ 
+first 3 samples : J_XYL_F_0001_01 | J_XYL_F_0001_02 | J_XYL_F_0002_01 
+# A tibble: 3 × 3
+  SampleID        Group      Group_sub       
+  <chr>           <chr>      <chr>           
+1 J_XYL_F_0001_01 IBS_before IBS_before_poor 
+2 J_XYL_F_0002_01 IBS_before IBS_before_great
+3 J_XYL_F_0003_01 IBS_before IBS_before_poor 
+all stopifnot() identity checks passed
+samples in counts but not in metadata: K_XYL_F_0009_03, K_XYL_F_0035_03 (depths: K_XYL_F_0009_03=10192, K_XYL_F_0035_03=7532 )
+  -> no Group label exists for them, so they can take part in the sample
+      level description but not in any group test; they are therefore
+      excluded from the PERMANOVA / alpha-by-group / differential steps and
+      that exclusion is reported below.
+counts table carries 132 samples; 130 of them have a Group label; the order of the aligned copy is identical to metadata
+
+## 2. Prevalence filter (min prevalence 0.10, min detect 0.05)
+features kept   : 132 
+features removed: 338 
+sample depth after filtering: min 1624 median 9839 max 20033 
+
+## 3. Taxonomy condense
+distinct taxa after condense: 54 
+unassigned rows dropped    : 0 
+features in the analysis state (top 40 by total abundance): 40 
+first 5 feature labels: s__ | __ | s__adolescentis | s__prausnitzii | s__copri 
+sample depth in the analysis state: min 1624 median 9761.5 max 20033 
+features detected per sample: median 17 range 2 - 27 
+
+## 4. Sequencing depth per group (samples with a Group label)
+all 132 samples: min 1624 median 9761.5 max 20033 
+      Group  n depth_min depth_median depth_max
+  IBS_after 36      1624       9584.5     17839
+ IBS_before 36      5393      10041.0     15862
+   UC_after 29      5340      10742.0     20033
+  UC_before 29      4210       9409.0     15624
+
+## 5. Alpha diversity (Shannon, analysis state)
+all 132 samples: mean 1.494 median 1.563 
+      Group  n shannon_mean shannon_median observed_median
+ IBS_before 36     1.547619       1.645923            17.5
+  IBS_after 36     1.504732       1.625163            17.5
+  UC_before 29     1.501058       1.569927            15.0
+   UC_after 29     1.382555       1.442886            16.0
+labelled-only ( 130 samples): mean 1.489 median 1.562 
+Kruskal-Wallis p = 0.279 
+pairwise Wilcoxon, BH-adjusted:
+          IBS_before IBS_after UC_before
+IBS_after      0.632        NA        NA
+UC_before      0.632     0.922        NA
+UC_after       0.429     0.430      0.43
+
+## 6. Beta diversity (Bray-Curtis, top-40 features)
+metadata columns: SampleID, Group, Group_sub 
+batch-like column present? FALSE -> no extraction / sequencing batch column exists in this file, so the model
+    cannot carry a batch term; Group_sub is nested inside Group (a stratum,
+    not a batch) and is therefore reported as a stratum, not as a covariate.
+PCoA1 explains 27.55 % and PCoA2 19.31 % of the Bray-Curtis variance
+PERMANOVA adonis2(bray ~ Group), 999 permutations, n = 130 :
+Permutation test for adonis under reduced model
+Permutation: free
+Number of permutations: 999
+
+vegan::adonis2(formula = bray ~ Group, data = meta, permutations = 999)
+          Df SumOfSqs      R2      F Pr(>F)  
+Model      3   0.5681 0.03383 1.4705  0.088 .
+Residual 126  16.2262 0.96617                
+Total    129  16.7943 1.00000                
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+betadisper(Group) permutest p = 0.618 
+median distance to group centroid:
+ IBS_after IBS_before   UC_after  UC_before 
+    0.3021     0.2882     0.3299     0.3244 
+
+UC_before vs IBS_before subset (n = 65 ): PERMANOVA R2 = 0.0265 F = 1.71 p = 0.101 | betadisper permutest p = 0.336 
+
+## 7. Differential abundance (Wilcoxon rank-sum, UC_before vs IBS_before)
+features tested: 40 | p<0.05: 3 | FDR<0.05: 0 | min FDR: 0.39 
+       feature     pvalue       fdr median_IBS_before median_UC_before
+    s__torques 0.01809095 0.3900687               0.0                0
+    s__mucosae 0.02875463 0.3900687               0.0                0
+            __ 0.02925515 0.3900687            2548.0             1719
+      s__copri 0.06554580 0.4647551              19.5                0
+ s__formicilis 0.06682617 0.4647551             101.0                0
+   s__plebeius 0.07445878 0.4647551               0.0                0
+     s__bromii 0.09055831 0.4647551               0.0                0
+     s__longum 0.09295102 0.4647551              88.0              109
+  higher_in
+  UC_before
+  UC_before
+ IBS_before
+ IBS_before
+ IBS_before
+  UC_before
+  UC_before
+  UC_before
+
+## 7b. Verification against the EMP submission (independent re-implementation)
+                                                              item
+ Shannon per sample, this script vs EMP export (65 shared samples)
+                     Wilcoxon p / BH FDR per feature vs EMP export
+                                                        value
+ mean 1.527 vs 1.527 | max abs diff 0.0000 | Pearson r 1.0000
+   n = 40 | max abs p diff 0.00000 | max abs FDR diff 0.00000
+
+## 9. Written outputs
+                          file
+      week6_alpha_by_group.csv
+      week6_depth_by_group.csv
+ week6_differential_wilcox.csv
+    week6_pcoa_coordinates.csv
+       week6_pcoa_variance.csv
+       week6_summary_table.csv
+ week6_verification_vs_EMP.csv
+figures: week6_alpha_shannon.pdf, week6_dispersion.pdf, week6_pcoa_bray.pdf 
+
+sessionInfo() ->  D:/生信week6/submit/logs/sessionInfo.txt 

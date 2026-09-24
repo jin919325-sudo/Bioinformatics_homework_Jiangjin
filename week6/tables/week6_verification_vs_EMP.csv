@@ -1,0 +1,3 @@
+"item","value"
+"Shannon per sample, this script vs EMP export (65 shared samples)","mean 1.527 vs 1.527 | max abs diff 0.0000 | Pearson r 1.0000"
+"Wilcoxon p / BH FDR per feature vs EMP export","n = 40 | max abs p diff 0.00000 | max abs FDR diff 0.00000"
